@@ -3,57 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Me</title>
-    <link rel="stylesheet" href="../style.css">
-    <style>
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        nav li {
-            display: inline;
-            margin-right: 15px;
-        }
-        form {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        label {
-            margin-right: 5px;
-        }
-        input, textarea {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            padding: 8px 12px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <title>Contact</title>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="../projects/index.html">Projects</a></li>
-            <li><a href="index.html">Contact</a></li>
-            <li><a href="https://github.com/omarali03" target="_blank">Profile</a></li>
-        </ul>
-    </nav>
-
     <h1>Contact</h1>
-
-    <!-- Contact Form -->
     <form action="mailto: omali@ucsd.edu" method="POST" enctype="text/plain">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
@@ -62,12 +15,30 @@
         <input type="text" id="subject" name="subject" required>
 
         <label for="body">Body:</label>
-        <textarea id="body" name="body" rows="2" required></textarea>
+        <textarea id="body" name="body" rows="5" required></textarea>
 
         <button type="submit">Submit</button>
     </form>
-
 </body>
 </html>
 
-</html>
+<form action="mailto: omali@ucsd.edu" method="POST" enctype="text/plain">
+    <!-- Sender's Email Address -->
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <!-- Subject -->
+    <label for="subject">Subject:</label>
+    <input id="subject" name="subject" required>
+
+    <!-- Message Body -->
+    <label for="body">Message:</label>
+    <textarea id="body" name="body" rows="5" required></textarea>
+
+    <!-- Submit Button -->
+    <button type="submit">Submit</button>
+</form>
+
+<label for="email">Email:
+    <input type="email" id="email" name="email" required>
+</label>
