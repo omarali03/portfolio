@@ -45,3 +45,39 @@ for (let p of pages) {
 
 // Add the <nav> to the top of the <body>
 document.body.prepend(nav);
+
+// Insert the dark mode switch at the start of the <body>
+document.body.insertAdjacentHTML(
+    'afterbegin',
+    `
+    <label class="color-scheme">
+      Theme:
+      <select id="color-scheme-select">
+        <option value="light dark" selected>Automatic</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+    `
+  );
+  
+  // Add event listener to handle dropdown changes
+  const colorSchemeSelect = document.getElementById("color-scheme-select");
+  
+  colorSchemeSelect.addEventListener("change", (event) => {
+    const selectedValue = event.target.value;
+  
+    // Apply the selected color scheme to the <html> element
+    document.documentElement.style.colorScheme = selectedValue;
+  
+    // Optionally save the user’s choice in localStorage
+    localStorage.setItem("color-scheme", selectedValue);
+  });
+  
+  // Load the user’s preferred color scheme from localStorage on page load
+  const savedColorScheme = localStorage.getItem("color-scheme");
+  if (savedColorScheme) {
+    colorSchemeSelect.value = savedColorScheme;
+    document.documentElement.style.colorScheme = savedColorScheme;
+  }
+  
