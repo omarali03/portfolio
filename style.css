@@ -1,7 +1,9 @@
+html {
+  color-scheme: light dark; /* Enable automatic dark mode */
+  accent-color: var(--color-accent);
+}
+
 body {
-  /* Set line height to 1.5 times the font size
-       and use the OS’s UI font as the website font
-     */
   font: 100%/1.5 system-ui;
   max-width: 100ch;
   margin-inline: auto;
@@ -10,6 +12,8 @@ body {
 
 nav {
   display: flex;
+  --border-color: oklch(50% 10% 200 / 40%); /* Adaptive border color */
+  border-bottom-color: var(--border-color);
 }
 
 nav a {
@@ -21,36 +25,20 @@ nav a {
   margin-bottom: 1em;
   border-bottom-width: 1px;
   border-bottom-style: solid;
-  border-bottom-color: oklch;
+  border-bottom-color: var(--border-color);
 }
 
 nav a.current {
-  font-weight: bold;
-  text-decoration: underline;
-  color: var(--color-accent); /* Highlight color */
-}
-
-/* Add styling for the active navigation link */
-nav a.active {
-  font-weight: bold;
-  text-decoration: underline;
-  color: var(--color-accent);
-}
-
-/* Optional hover effects */
-nav a:hover {
   border-bottom-width: 0.4em;
-  border-bottom-color: var(--color-accent);
-  background-color: oklch(from var(--color-accent) 95% 5% h);
+  border-bottom-color: oklch(85% 3% 200);
   padding-bottom: 8px;
 }
 
-:root {
-  --color-accent: oklch(75% 10% 250);
-}
-
-html {
-  accent-color: var(--color-accent);
+nav a:hover {
+  border-bottom-width: 0.4em;
+  border-bottom-color: var(--color-accent);
+  background-color: color-mix(in oklch, var(--color-accent), canvas 85%); /* Adaptive hover background */
+  padding-bottom: 8px;
 }
 
 form {
@@ -72,36 +60,11 @@ button {
 .projects {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
-  gap: 1em; /* Add spacing between articles */
-  padding: 1em; /* Padding around the grid */
+  gap: 1em;
 }
 
 article {
   display: grid;
   grid-template-rows: subgrid;
   grid-row: span 3;
-  border: 1px solid #ddd;
-  padding: 1em;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  text-align: center;
-}
-
-.projects img {
-  max-width: 100%;
-  height: auto;
-  margin: 0 auto;
-}
-
-.projects h2 {
-  margin: 0;
-  font-size: 1.2em;
-  line-height: 1.1;
-}
-
-.projects p {
-  margin: 0;
-  font-size: 1em;
-  color: #555;
 }
