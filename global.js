@@ -46,7 +46,7 @@ for (let p of pages) {
 // Add the <nav> to the top of the <body>
 document.body.prepend(nav);
 
-// Insert the dark mode switch at the start of the <body>
+  // Insert the dark mode switch at the start of the <body>
 document.body.insertAdjacentHTML(
     'afterbegin',
     `
@@ -60,6 +60,13 @@ document.body.insertAdjacentHTML(
     </label>
     `
   );
+  
+  // Detect the current OS color scheme and adjust the dropdown label
+  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    document.querySelector("option[value='light dark']").textContent = "Automatic (Dark)";
+  } else {
+    document.querySelector("option[value='light dark']").textContent = "Automatic (Light)";
+  }
   
   // Add event listener to handle dropdown changes
   const colorSchemeSelect = document.getElementById("color-scheme-select");
