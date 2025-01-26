@@ -23,15 +23,25 @@ for (let p of pages) {
   // Adjust relative URLs for non-home pages
   url = !ARE_WE_HOME && !url.startsWith('http') ? '../' + url : url;
 
-  // Add the link to the navigation
-  nav.insertAdjacentHTML('beforeend', `<a href="${url}">${title}</a>`);
+  // Create a <a> element
+  let a = document.createElement('a');
+  a.href = url; // Set the href attribute
+  a.textContent = title; // Set the text content
+
+  // Highlight the current page
+  a.classList.toggle(
+    'current',
+    a.host === location.host && a.pathname === location.pathname
+  );
+
+  // Open external links in a new tab
+  if (a.host !== location.host) {
+    a.target = '_blank'; // Set target="_blank"
+  }
+
+  // Append the link to the navigation menu
+  nav.append(a);
 }
 
 // Add the <nav> to the top of the <body>
 document.body.prepend(nav);
-
-// Find the current page link and add the "current" class
-let currentLink = Array.from(nav.querySelectorAll('a')).find(
-  (a) => a.host === location.host && a.pathname === location.pathname
-);
-currentLink?.classList.add('current');
