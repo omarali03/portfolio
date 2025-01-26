@@ -8,8 +8,6 @@ let currentLink = navLinks.find(
   (a) => a.host === location.host && a.pathname === location.pathname
 );
 
-// Add the "active" class to the current link
-if (currentLink) {
-  currentLink.classList.add("active");
-}
+// Add the "current" class to the link if it exists
+currentLink?.classList.add('current');
 
