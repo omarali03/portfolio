@@ -25,9 +25,11 @@ nav a {
 }
 
 nav a.current {
+  font-weight: bold;
+  text-decoration: underline;
+  color: var(--color-accent); /* Accent color */
   border-bottom-width: 0.4em;
-  border-bottom-color: oklch(85% 3% 200);
-  padding-bottom: 8px;
+  border-bottom-color: var(--color-accent);
 }
 
 /* Add styling for the active navigation link */
