@@ -12,27 +12,24 @@ body {
 
 nav {
   display: flex;
-  --border-color: oklch(50% 10% 200 / 40%); /* Adaptive border color */
-  border-bottom-color: var(--border-color);
+  justify-content: space-around;
+  background-color: #333;
+  padding: 1em 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 nav a {
-  flex: 1;
+  color: white;
   text-decoration: none;
-  color: inherit;
-  text-align: center;
-  padding: 0.5em;
-  margin-bottom: 1em;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: var(--border-color);
+  padding: 0.5em 1em;
 }
 
 nav a.current {
-  border-bottom-width: 0.4em;
-  border-bottom-color: oklch(85% 3% 200);
-  padding-bottom: 8px;
+  border-bottom: 2px solid #00f;
 }
+
 
 nav a:hover {
   border-bottom-width: 0.4em;
