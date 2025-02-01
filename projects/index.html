@@ -18,15 +18,15 @@
 
     async function loadProjects() {
         try {
-            const projects = await fetchJSON('../lib/projects.json'); // Fetch project data
-            const projectsContainer = document.querySelector('.projects'); // Select the container
-            renderProjects(projects, projectsContainer); // Render projects dynamically
+            const projects = await fetchJSON('../lib/projects.json');
+            const projectsContainer = document.querySelector('.projects');
+            renderProjects(projects, projectsContainer, 'h3'); // Example with h3
         } catch (error) {
             console.error('Error loading projects:', error);
         }
     }
 
-    loadProjects(); // Call the function to load projects on page load
-  </script>
+    loadProjects();
+</script>
 </body>
 </html>
