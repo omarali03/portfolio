@@ -85,14 +85,23 @@ if (savedColorScheme) {
 
 export async function fetchJSON(url) {
   try {
-    if (!response.ok) {
-      throw new Error(`Failed to fetch projects: ${response.statusText}`);
-  }      const response = await fetch(url);
+      const response = await fetch(url);  // Remove recursive call
+      
+      if (!response.ok) {
+          throw new Error(`Failed to fetch projects: ${response.statusText}`);
+      }
+
+      const data = await response.json(); // Parse JSON
+      return data; // Return data after parsing
 
   } catch (error) {
       console.error('Error fetching or parsing JSON data:', error);
   }
 }
-fetchJSON('./lib/projects.json');
+
+fetchJSON('./lib/projects.json')
+    .then(data => console.log(data))
+    .catch(error => console.error('Fetch failed:', error));
+
 
   
