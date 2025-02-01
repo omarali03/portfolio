@@ -94,3 +94,31 @@ article {
 .github-profile img {
   border-radius: 50%;
 }
+#profile-stats {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#profile-stats dl {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+  gap: 20px;
+  font-size: 1.2rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+#profile-stats dt {
+  font-weight: bold;
+  color: #444;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+#profile-stats dd {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: bold;
+}
