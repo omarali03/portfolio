@@ -95,7 +95,19 @@ export async function fetchJSON(url) {
   }
 }
 
-export function renderProjects(projects, containerElement) {
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+  if (!containerElement) {
+      console.error("Container element is not valid.");
+      return;
+  }
+
+  // Ensure headingLevel is a valid heading tag
+  const validHeadings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+  if (!validHeadings.includes(headingLevel)) {
+      console.warn(`Invalid heading level: ${headingLevel}. Defaulting to 'h2'.`);
+      headingLevel = 'h2';
+  }
+
   // Clear existing content before rendering new projects
   containerElement.innerHTML = '';
 
@@ -103,14 +115,30 @@ export function renderProjects(projects, containerElement) {
   projects.forEach(project => {
       const article = document.createElement('article');
 
-      // Populate the article element
-      article.innerHTML = `
-          <h3>${project.title}</h3>
-          <img src="${project.image}" alt="${project.title}">
-          <p>${project.description}</p>
-      `;
+      // Ensure missing properties don't break rendering
+      const title = project.title || "Untitled Project";
+      const image = project.image || "https://via.placeholder.com/150";
+      const description = project.description || "No description available.";
 
-      // Append the article to the container
+      // Create dynamic heading
+      const heading = document.createElement(headingLevel);
+      heading.textContent = title;
+
+      // Create image element
+      const img = document.createElement('img');
+      img.src = image;
+      img.alt = title;
+
+      // Create paragraph
+      const paragraph = document.createElement('p');
+      paragraph.textContent = description;
+
+      // Append elements to article
+      article.appendChild(heading);
+      article.appendChild(img);
+      article.appendChild(paragraph);
+
+      // Append article to container
       containerElement.appendChild(article);
   });
 }
