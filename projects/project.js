@@ -5,3 +5,17 @@ const projects = await fetchJSON('../lib/projects.json');
 const projectsContainer = document.querySelector('.projects');
 
 renderProjects(projects, projectsContainer, 'h2');
+import { fetchJSON, renderProjects } from '../global.js';
+
+async function loadProjects() {
+    try {
+        const projects = await fetchJSON('../lib/projects.json'); // Fetch project data
+        const projectsContainer = document.querySelector('.projects'); // Select container
+        renderProjects(projects, projectsContainer, 'h2'); // Render projects in the container
+    } catch (error) {
+        console.error('Error loading projects:', error);
+    }
+}
+
+// Call the function to load projects when the page loads
+loadProjects();
