@@ -44,3 +44,23 @@ async function displayGitHubProfile() {
 
 // Run GitHub function when page loads
 displayGitHubProfile();
+import { fetchGitHubData } from './global.js';
+
+async function displayGitHubStats() {
+    try {
+        const username = "omarali03";  // Change this to your GitHub username
+        const githubData = await fetchGitHubData(username);
+
+        if (githubData) {
+            document.getElementById("github-followers").textContent = githubData.followers;
+            document.getElementById("github-following").textContent = githubData.following;
+            document.getElementById("github-repos").textContent = githubData.public_repos;
+            document.getElementById("github-gists").textContent = githubData.public_gists;
+        }
+    } catch (error) {
+        console.error("Error fetching GitHub stats:", error);
+    }
+}
+
+// Run function when page loads
+displayGitHubStats();
