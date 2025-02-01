@@ -98,6 +98,27 @@ export async function fetchJSON(url) {
   }
 }
 
+export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+  // Ensure the container is empty before adding new content
+  containerElement.innerHTML = '';
+
+  // Loop through each project in the projects array
+  projects.forEach(project => {
+      // Create an <article> element for each project
+      const article = document.createElement('article');
+
+      // Set the inner HTML with project data
+      article.innerHTML = `
+          <${headingLevel}>${project.title}</${headingLevel}>
+          <img src="${project.image}" alt="${project.title}">
+          <p>${project.description}</p>
+      `;
+
+      // Append the article to the container
+      containerElement.appendChild(article);
+  });
+}
+
 
 
   
