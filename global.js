@@ -86,30 +86,26 @@ if (savedColorScheme) {
 export async function fetchJSON(url) {
   try {
       const response = await fetch(url);
-      
       if (!response.ok) {
           throw new Error(`Failed to fetch projects: ${response.statusText}`);
       }
-
-      const data = await response.json();
-      return data;
+      return await response.json();
   } catch (error) {
       console.error('Error fetching or parsing JSON data:', error);
   }
 }
 
-export function renderProjects(projects, containerElement, headingLevel = 'h2') {
-  // Ensure the container is empty before adding new content
+export function renderProjects(projects, containerElement) {
+  // Clear existing content before rendering new projects
   containerElement.innerHTML = '';
 
-  // Loop through each project in the projects array
+  // Loop through each project and create elements dynamically
   projects.forEach(project => {
-      // Create an <article> element for each project
       const article = document.createElement('article');
 
-      // Set the inner HTML with project data
+      // Populate the article element
       article.innerHTML = `
-          <${headingLevel}>${project.title}</${headingLevel}>
+          <h3>${project.title}</h3>
           <img src="${project.image}" alt="${project.title}">
           <p>${project.description}</p>
       `;
