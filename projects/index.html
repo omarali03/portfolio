@@ -10,7 +10,7 @@
   
   <h1>Projects</h1>
   
-  <!-- This is where the projects will be dynamically inserted -->
+  <!-- Container for projects -->
   <div class="projects"></div>
 
   <script type="module">
@@ -19,8 +19,8 @@
     async function loadProjects() {
         try {
             const projects = await fetchJSON('../lib/projects.json'); // Fetch project data
-            const projectsContainer = document.querySelector('.projects'); // Select container
-            renderProjects(projects, projectsContainer, 'h2'); // Render projects dynamically
+            const projectsContainer = document.querySelector('.projects'); // Select the container
+            renderProjects(projects, projectsContainer); // Render projects dynamically
         } catch (error) {
             console.error('Error loading projects:', error);
         }
@@ -30,4 +30,3 @@
   </script>
 </body>
 </html>
-
