@@ -85,3 +85,12 @@ article {
   background-color: var(--bg-color, #fff);
   color: var(--text-color, #000);
 }
+
+.github-profile {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.github-profile img {
+  border-radius: 50%;
+}
