@@ -83,4 +83,16 @@ if (savedColorScheme) {
   console.log("No saved theme found, defaulting to Automatic");
 }
 
+export async function fetchJSON(url) {
+  try {
+      // Fetch the JSON file from the given URL
+      const response = await fetch(url);
+
+
+  } catch (error) {
+      console.error('Error fetching or parsing JSON data:', error);
+  }
+}
+fetchJSON('./lib/projects.json');
+
   
