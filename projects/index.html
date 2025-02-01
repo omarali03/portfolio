@@ -9,68 +9,25 @@
 <body>
   
   <h1>Projects</h1>
-  <div class="projects">
-    <article>
-        <h2>Project 1</h2>
-        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="Image placeholder">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-    <article>
-        <h2>Project 2</h2>
-        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="Image placeholder">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-    <article>
-        <h2>Project 3</h2>
-        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="Image placeholder">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-    <article>
-        <h2>Project 4</h2>
-        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="Image placeholder">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-    <article>
-        <h2>Project 5</h2>
-        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="Image placeholder">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-    <article>
-        <h2>Project 6</h2>
-        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="Image placeholder">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-    <article>
-        <h2>Project 7</h2>
-        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="Image placeholder">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-    <article>
-        <h2>Project 8</h2>
-        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="Image placeholder">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-    <article>
-        <h2>Project 9</h2>
-        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="Image placeholder">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-    <article>
-        <h2>Project 10</h2>
-        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="Image placeholder">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-    <article>
-        <h2>Project 11</h2>
-        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="Image placeholder">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-    <article>
-        <h2>Project 12</h2>
-        <img src="https://vis-society.github.io/labs/2/images/empty.svg" alt="Image placeholder">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-    </article>
-</div>
-  <script src="../global.js" type="module"></script>
+  
+  <!-- This is where the projects will be dynamically inserted -->
+  <div class="projects"></div>
+
+  <script type="module">
+    import { fetchJSON, renderProjects } from '../global.js';
+
+    async function loadProjects() {
+        try {
+            const projects = await fetchJSON('../lib/projects.json'); // Fetch project data
+            const projectsContainer = document.querySelector('.projects'); // Select container
+            renderProjects(projects, projectsContainer, 'h2'); // Render projects dynamically
+        } catch (error) {
+            console.error('Error loading projects:', error);
+        }
+    }
+
+    loadProjects(); // Call the function to load projects on page load
+  </script>
 </body>
 </html>
+
