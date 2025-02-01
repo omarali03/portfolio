@@ -158,6 +158,22 @@ export async function fetchGithubData(username) {
   }
 }
 
+export async function fetchGitHubData(omarali03) {
+  try {
+      const response = await fetch(`https://api.github.com/users/${omarali03}`);
+      
+      if (!response.ok) {
+          throw new Error(`Failed to fetch GitHub data: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      return data;
+
+  } catch (error) {
+      console.error("Error fetching GitHub data:", error);
+  }
+}
+
 
 
   
