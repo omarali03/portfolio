@@ -99,9 +99,5 @@ export async function fetchJSON(url) {
   }
 }
 
-fetchJSON('./lib/projects.json')
-    .then(data => console.log(data))
-    .catch(error => console.error('Fetch failed:', error));
-
 
   
