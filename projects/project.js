@@ -3,7 +3,7 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 async function loadProjects() {
     try {
-        const projects = await fetchJSON('../lib/projects.json'); // Fetch project data
+        const projects = await fetchJSON('/portfolio/lib/projects.json'); // Updated Fetch Path
         const projectsContainer = document.querySelector('.projects'); // Select container
         renderProjects(projects, projectsContainer, 'h2'); // Render projects in the container
 
