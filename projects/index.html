@@ -10,27 +10,12 @@
   
     <h1 class="projects-title">Projects</h1>  
 
+    <svg id="projects-pie-plot" viewBox="-50 -50 100 100"></svg>
+
     <div class="projects"></div>
 
-  <script type="module">
-    import { fetchJSON, renderProjects } from '../global.js';
-
-    async function loadProjects() {
-        try {
-            const projects = await fetchJSON('../lib/projects.json');
-            const projectsContainer = document.querySelector('.projects');
-            renderProjects(projects, projectsContainer, 'h3'); // Example with h3
-        } catch (error) {
-            console.error('Error loading projects:', error);
-        }
-    }
-    <svg id="projects-pie-plot" viewBox="-50 -50 100 100">
-        <circle cx="0" cy="0" r="50" fill="red" />
-    </svg>
-
-    loadProjects();
-</script>
-<script type="module" src="../global.js"></script>
-<script type="module" src="./project.js"></script>
+    <script type="module" src="../global.js"></script>
+    <script type="module" src="./projects.js"></script> <!-- Ensure correct filename -->
 </body>
 </html>
+
