@@ -17,7 +17,6 @@ async function loadProjects() {
     }
 }
 
-// Call the function to load projects when the page loads
 loadProjects();
 
 document.addEventListener("DOMContentLoaded", async () => {
