@@ -1,9 +1,7 @@
 console.log("IT’S ALIVE!");
 
-// Check if we're on the home page
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
 
-// Define the pages for navigation
 const pages = [
   { url: '', title: 'Home' },
   { url: 'contact/', title: 'Contact' },
@@ -12,33 +10,25 @@ const pages = [
   { url: 'https://github.com/omarali03', title: 'Github' }
 ];
 
-// Create a <nav> element and populate navigation links
 const nav = document.createElement('nav');
 pages.forEach(({ url, title }) => {
-  // Adjust relative URLs for non-home pages
   const adjustedUrl = !ARE_WE_HOME && !url.startsWith('http') ? `../${url}` : url;
 
-  // Create the link element
   const a = document.createElement('a');
   a.href = adjustedUrl;
   a.textContent = title;
 
-  // Highlight the current page
   a.classList.toggle('current', a.host === location.host && a.pathname === location.pathname);
 
-  // Open external links in a new tab
   if (a.host !== location.host) {
     a.target = '_blank';
   }
 
-  // Append the link to the navigation
   nav.appendChild(a);
 });
 
-// Add the <nav> to the top of the <body>
 document.body.prepend(nav);
 
-// Add the dark mode switch at the top of the <body>
 document.body.insertAdjacentHTML(
   'afterbegin',
   `
@@ -53,23 +43,19 @@ document.body.insertAdjacentHTML(
   `
 );
 
-// Detect and adjust the dark mode dropdown label based on the OS color scheme
 if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
   document.querySelector("option[value='light dark']").textContent = "Automatic (Dark)";
 } else {
   document.querySelector("option[value='light dark']").textContent = "Automatic (Light)";
 }
 
-// Handle dropdown changes for dark mode
 const colorSchemeSelect = document.getElementById("color-scheme-select");
 
 colorSchemeSelect.addEventListener("change", (event) => {
   const selectedValue = event.target.value;
 
-  // Apply the selected color scheme to the <html> element
   document.documentElement.style.colorScheme = selectedValue;
 
-  // Save the user’s choice in localStorage
   localStorage.setItem("color-scheme", selectedValue);
 });
 
@@ -119,6 +105,7 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       const title = project.title || "Untitled Project";
       const image = project.image || "https://via.placeholder.com/150";
       const description = project.description || "No description available.";
+      const year = project.year || "Unknown Year"; // Fetch project year
 
       // Create dynamic heading
       const heading = document.createElement(headingLevel);
@@ -129,22 +116,33 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       img.src = image;
       img.alt = title;
 
-      // Create paragraph
+      // Create paragraph for description
       const paragraph = document.createElement('p');
       paragraph.textContent = description;
+
+      // Create paragraph for year
+      const yearParagraph = document.createElement('p');
+      yearParagraph.textContent = `c. ${year}`;
+      yearParagraph.style.fontStyle = 'italic'; // Style year text
+
+      // Wrap description and year in a div to prevent overlap
+      const textWrapper = document.createElement('div');
+      textWrapper.appendChild(paragraph);
+      textWrapper.appendChild(yearParagraph);
 
       // Append elements to article
       article.appendChild(heading);
       article.appendChild(img);
-      article.appendChild(paragraph);
+      article.appendChild(textWrapper);
 
       // Append article to container
       containerElement.appendChild(article);
   });
 }
+
 export async function fetchGithubData(username) {
   try {
-      const response = await fetch(`https://api.github.com/users/${omarali03}`);
+      const response = await fetch(`https://api.github.com/users/${username}`);
       
       if (!response.ok) {
           throw new Error(`Failed to fetch GitHub data: ${response.statusText}`);
@@ -158,9 +156,9 @@ export async function fetchGithubData(username) {
   }
 }
 
-export async function fetchGitHubData(omarali03) {
+export async function fetchGitHubData(username) {
   try {
-      const response = await fetch(`https://api.github.com/users/${omarali03}`);
+      const response = await fetch(`https://api.github.com/users/${username}`);
       
       if (!response.ok) {
           throw new Error(`Failed to fetch GitHub data: ${response.statusText}`);
