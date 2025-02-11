@@ -21,41 +21,28 @@ function createPieChart() {
         .attr("width", 200)
         .attr("height", 200)
         .append("g")
-        .attr("transform", "translate(100,100)"); // Center SVG
+        .attr("transform", "translate(100,100)"); // Center the pie chart
 
-    // Pie chart data (e.g., two slices)
-    let data = [1, 2]; // 33% and 66% slices
-    let total = data.reduce((acc, d) => acc + d, 0);
-
+    // Create an arc generator
     let arcGenerator = d3.arc()
-        .innerRadius(0) // Full pie (not a donut)
-        .outerRadius(50); // Radius of 50
+        .innerRadius(0)  // Full pie (not a donut)
+        .outerRadius(50); // Radius of the pie chart
 
-    let arcData = [];
-    let angle = 0;
+    // Generate the path for a full circle (2π radians)
+    let arc = arcGenerator({
+        startAngle: 0,
+        endAngle: 2 * Math.PI,
+    });
 
-    // Compute start and end angles
-    for (let d of data) {
-        let endAngle = angle + (d / total) * 2 * Math.PI;
-        arcData.push({ startAngle: angle, endAngle });
-        angle = endAngle;
-    }
-
-    // Assign different colors for each slice
-    let colors = ['gold', 'purple'];
-
-    // Draw slices
-    svg.selectAll("path")
-        .data(arcData)
-        .enter()
-        .append("path")
-        .attr("d", arcGenerator)
-        .attr("fill", (d, i) => colors[i]); // Assign colors dynamically
+    // Append the generated arc to the SVG
+    svg.append("path")
+        .attr("d", arc)
+        .attr("fill", "red"); // Fill color
 }
 
 // Ensure everything loads when the DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
     loadProjects();   // Load projects dynamically
-    createPieChart(); // Create the pie chart
+    createPieChart(); // Draw the pie chart using D3
 });
 
