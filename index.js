@@ -2,19 +2,30 @@ import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        // Fetch all projects from projects.json
+        console.log("index.js loaded and running.");
+
         const projects = await fetchJSON('./lib/projects.json');
 
-        // Get only the first 3 projects for the homepage
+        console.log("Projects JSON:", projects);
+
+        if (!projects || projects.length === 0) {
+            console.error("No projects found. Check if projects.json is correctly formatted and accessible.");
+            return;
+        }
+
         const latestProjects = projects.slice(0, 3);
 
-        // Select the container in the home page where projects will be displayed
         const projectsContainer = document.querySelector('.projects');
 
-        // Render the first 3 projects dynamically
+        console.log("Projects container found:", projectsContainer);
+
+        if (!projectsContainer) {
+            console.error("Error: No .projects container found in index.html.");
+            return;
+        }
+
         renderProjects(latestProjects, projectsContainer, 'h2');
 
-        // **Update the Projects Title with Total Projects Count**
         const projectsTitle = document.querySelector('.projects-title');
         if (projectsTitle) {
             projectsTitle.textContent = `${projects.length} Projects`;
@@ -28,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // GitHub API Fetching
 async function displayGitHubProfile() {
     try {
-        const username = "omarali03";  // Change to your GitHub username
+        const username = "omarali03";  
         const githubData = await fetchGitHubData(username);
 
         if (githubData) {
@@ -42,13 +53,13 @@ async function displayGitHubProfile() {
     }
 }
 
-// Run GitHub function when page loads
 displayGitHubProfile();
+
 import { fetchGitHubData } from './global.js';
 
 async function displayGitHubStats() {
     try {
-        const username = "omarali03";  // Change this to your GitHub username
+        const username = "omarali03"; 
         const githubData = await fetchGitHubData(username);
 
         if (githubData) {
@@ -62,5 +73,4 @@ async function displayGitHubStats() {
     }
 }
 
-// Run function when page loads
 displayGitHubStats();
