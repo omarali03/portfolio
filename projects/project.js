@@ -1,3 +1,4 @@
+console.log("project.js is loaded and running!");
 import { fetchJSON, renderProjects } from '../global.js';
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
@@ -16,12 +17,14 @@ async function loadProjects() {
     }
 }
 
+
 function createPieChart() {
-    const svg = d3.select("#projects-pie-plot")
-        .attr("width", 200)
-        .attr("height", 200)
-        .append("g")
-        .attr("transform", "translate(100,100)"); // Center the pie chart
+    const svg = d3.select("#projects-plot");
+
+    if (!svg.node()) {
+        console.error("SVG element with id 'projects-plot' not found.");
+        return;
+    }
 
     // Create an arc generator
     let arcGenerator = d3.arc()
@@ -37,10 +40,9 @@ function createPieChart() {
     // Append the generated arc to the SVG
     svg.append("path")
         .attr("d", arc)
-        .attr("fill", "red"); // Fill color
+        .attr("fill", "red");
 }
 
-// Ensure everything loads when the DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
     loadProjects();   // Load projects dynamically
     createPieChart(); // Draw the pie chart using D3
