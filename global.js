@@ -87,17 +87,8 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       return;
   }
 
-  // Ensure headingLevel is a valid heading tag
-  const validHeadings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-  if (!validHeadings.includes(headingLevel)) {
-      console.warn(`Invalid heading level: ${headingLevel}. Defaulting to 'h2'.`);
-      headingLevel = 'h2';
-  }
+  containerElement.innerHTML = ''; // Clear previous content
 
-  // Clear existing content before rendering new projects
-  containerElement.innerHTML = '';
-
-  // Loop through each project and create elements dynamically
   projects.forEach(project => {
       const article = document.createElement('article');
 
@@ -105,9 +96,9 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       const title = project.title || "Untitled Project";
       const image = project.image || "https://via.placeholder.com/150";
       const description = project.description || "No description available.";
-      const year = project.year || "Unknown Year"; // Fetch project year
+      const year = project.year || "Unknown Year"; 
 
-      // Create dynamic heading
+      // Create title heading
       const heading = document.createElement(headingLevel);
       heading.textContent = title;
 
@@ -116,29 +107,31 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       img.src = image;
       img.alt = title;
 
-      // Create paragraph for description
+      // Create description paragraph
       const paragraph = document.createElement('p');
       paragraph.textContent = description;
 
-      // Create paragraph for year
+      // Create year element
       const yearParagraph = document.createElement('p');
       yearParagraph.textContent = `c. ${year}`;
-      yearParagraph.style.fontStyle = 'italic'; // Style year text
+      yearParagraph.style.fontStyle = 'italic';
+      yearParagraph.style.fontVariantNumeric = 'oldstyle-nums'; // Apply recommended styling
 
-      // Wrap description and year in a div to prevent overlap
+      // Create wrapper for description and year
       const textWrapper = document.createElement('div');
       textWrapper.appendChild(paragraph);
       textWrapper.appendChild(yearParagraph);
 
-      // Append elements to article
+      // Append elements to the article
       article.appendChild(heading);
       article.appendChild(img);
       article.appendChild(textWrapper);
 
-      // Append article to container
+      // Append article to the container
       containerElement.appendChild(article);
   });
 }
+
 
 export async function fetchGithubData(omarali03) {
   try {
