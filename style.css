@@ -129,9 +129,9 @@ article {
   overflow: visible;
 }
 
-svg {
-  width: 200px;
-  height: 200px;
-  display: block;
-  margin: auto;
+#projects-pie-plot {
+  max-width: 20em;
+  margin-block: 2em;
+
+  overflow: visible;
 }
