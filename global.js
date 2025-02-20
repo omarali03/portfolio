@@ -1,5 +1,6 @@
 console.log("IT’S ALIVE!");
 
+// Navigation Logic
 const ARE_WE_HOME = document.documentElement.classList.contains('home');
 
 const pages = [
@@ -29,6 +30,7 @@ pages.forEach(({ url, title }) => {
 
 document.body.prepend(nav);
 
+// Theme Selection
 document.body.insertAdjacentHTML(
   'afterbegin',
   `
@@ -53,9 +55,7 @@ const colorSchemeSelect = document.getElementById("color-scheme-select");
 
 colorSchemeSelect.addEventListener("change", (event) => {
   const selectedValue = event.target.value;
-
   document.documentElement.style.colorScheme = selectedValue;
-
   localStorage.setItem("color-scheme", selectedValue);
 });
 
@@ -69,16 +69,11 @@ if (savedColorScheme) {
   console.log("No saved theme found, defaulting to Automatic");
 }
 
+// Fetch JSON function (ensuring data loads properly)
 export async function fetchJSON(url) {
-  try {
-      const response = await fetch(url);
-      if (!response.ok) {
-          throw new Error(`Failed to fetch projects: ${response.statusText}`);
-      }
-      return await response.json();
-  } catch (error) {
-      console.error('Error fetching or parsing JSON data:', error);
-  }
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Failed to load ${url}`);
+  return response.json();
 }
 
 export function renderProjects(projects, containerElement, headingLevel = 'h2') {
@@ -86,7 +81,6 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
       console.error("Container element is not valid.");
       return;
   }
-
   containerElement.innerHTML = ''; // Clear previous content
 
   projects.forEach(project => {
@@ -132,10 +126,9 @@ export function renderProjects(projects, containerElement, headingLevel = 'h2') 
   });
 }
 
-
-export async function fetchGithubData(omarali03) {
+export async function fetchGithubData(username) {
   try {
-      const response = await fetch(`https://api.github.com/users/${omarali03}`);
+      const response = await fetch(`https://api.github.com/users/${username}`);
       
       if (!response.ok) {
           throw new Error(`Failed to fetch GitHub data: ${response.statusText}`);
@@ -148,8 +141,6 @@ export async function fetchGithubData(omarali03) {
       console.error("Error fetching GitHub data:", error);
   }
 }
-
-
 
 
   
