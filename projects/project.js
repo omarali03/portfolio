@@ -1,11 +1,16 @@
 console.log("project.js is loaded and running!");
 import { fetchJSON, renderProjects } from '../global.js';
-//import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 async function loadProjects() {
     try {
-        const projects = await fetchJSON('lib/projects.json');
+        const projects = await fetchJSON('../lib/projects.json'); // Corrected path
         const projectsContainer = document.querySelector('.projects');
+
+        if (!projectsContainer) {
+            console.error("Error: .projects container not found!");
+            return;
+        }
+
         renderProjects(projects, projectsContainer, 'h2');
 
         const projectsTitle = document.querySelector(".projects-title");
@@ -16,5 +21,9 @@ async function loadProjects() {
         console.error('Error loading projects:', error);
     }
 }
+
+// Call the function to load projects on page load
+loadProjects();
+
 
 
