@@ -1,40 +1,38 @@
-import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
+import { fetchJSON, renderProjects } from './global.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        console.log("index.js loaded and running.");
+        console.log("index.js is running.");
 
+        // Fetch all projects from projects.json
         const projects = await fetchJSON('./lib/projects.json');
 
-        console.log("Projects JSON:", projects);
+        // Debugging: Log the fetched projects
+        console.log("Fetched projects:", projects);
 
         if (!projects || projects.length === 0) {
-            console.error("No projects found. Check if projects.json is correctly formatted and accessible.");
+            console.error("No projects found. Check if projects.json is accessible.");
             return;
         }
 
-        const latestProjects = projects.slice(0, 3);
-
+        // Select the container where projects should appear
         const projectsContainer = document.querySelector('.projects');
-
-        console.log("Projects container found:", projectsContainer);
+        console.log("Projects container:", projectsContainer);
 
         if (!projectsContainer) {
-            console.error("Error: No .projects container found in index.html.");
+            console.error("Error: No .projects container found in HTML.");
             return;
         }
 
-        renderProjects(latestProjects, projectsContainer, 'h2');
-
-        const projectsTitle = document.querySelector('.projects-title');
-        if (projectsTitle) {
-            projectsTitle.textContent = `${projects.length} Projects`;
-        }
+        // Render the projects
+        renderProjects(projects, projectsContainer, 'h2');
+        console.log("Projects successfully rendered!");
 
     } catch (error) {
-        console.error("Error fetching and displaying latest projects:", error);
+        console.error("Error fetching and displaying projects:", error);
     }
 });
+
 
 // GitHub API Fetching
 async function displayGitHubProfile() {
