@@ -1,6 +1,16 @@
 console.log("project.js is loaded and running!");
 import { fetchJSON, renderProjects } from '../global.js';
 
+document.addEventListener("DOMContentLoaded", function () {
+    const svg = d3.select("#projects-plot");
+
+    svg.append("circle")
+        .attr("cx", 0)
+        .attr("cy", 0)
+        .attr("r", 50)
+        .attr("fill", "blue"); // Change color for visibility
+});
+
 async function loadProjects() {
     try {
         const projects = await fetchJSON('../lib/projects.json'); // Corrected path
