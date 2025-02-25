@@ -36,13 +36,14 @@ document.addEventListener("DOMContentLoaded", function () {
         .attr("fill", (d, i) => colorScale(i))
         .attr("transform", "translate(50,50)"); // Centering the pie chart
 
-    // Add legend
     let legend = d3.select(".legend");
+
     data.forEach((d, i) => {
         legend.append("li")
             .attr("style", `--color:${colorScale(i)}`)
-            .html(`<span class="swatch"></span> ${d.label} <em>(${d.value})</em>`);
-    });
+            .html(`<span class="swatch" style="background-color:${colorScale(i)}"></span> ${d.label} <em>(${d.value})</em>`);
+});
+
 });
 
 // Function to load and render projects
