@@ -148,4 +148,28 @@ article {
   margin-right: 8px;
   background: var(--color);
 }
+.container {
+  display: flex;  /* Enables flexbox */
+  align-items: center;  /* Centers items vertically */
+  gap: 20px;  /* Adds spacing between pie chart and legend */
+}
+
+.legend {
+  flex: 1;  /* Allows legend to take available space */
+  list-style: none;
+  padding: 0;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 10px;  /* Adds spacing between swatch and text */
+}
+
+.legend .swatch {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
 
