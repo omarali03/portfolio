@@ -1,9 +1,6 @@
 console.log("project.js is loaded and running!");
 import { fetchJSON, renderProjects } from '../global.js';
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
-
-import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
-
 document.addEventListener("DOMContentLoaded", function () {
     const svg = d3.select("#projects-plot");
 
