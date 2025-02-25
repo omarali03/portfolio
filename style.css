@@ -130,6 +130,20 @@ article {
   overflow: visible;
 }
 
+#projects-plot {
+  display: block;
+  margin: 0 auto; /* Center horizontally */
+  position: relative;
+  top: 0; /* Move it to the top */
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .legend {
   list-style: none;
   padding: 0;
