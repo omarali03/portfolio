@@ -2,14 +2,17 @@ console.log("project.js is loaded and running!");
 import { fetchJSON, renderProjects } from '../global.js';
 
 document.addEventListener("DOMContentLoaded", function () {
-    const svg = d3.select("#projects-plot");
+    const svg = d3.select("#projects-plot")
+        .attr("width", 300)
+        .attr("height", 300);
 
     svg.append("circle")
         .attr("cx", 0)
         .attr("cy", 0)
         .attr("r", 50)
-        .attr("fill", "blue"); // Change color for visibility
+        .attr("fill", "red");
 });
+
 
 async function loadProjects() {
     try {
