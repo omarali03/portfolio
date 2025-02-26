@@ -32,8 +32,11 @@ document.addEventListener("DOMContentLoaded", function () {
         .attr("fill", (d, i) => colorScale(i))
         .attr("transform", "translate(100,100)");
 
-    // Generate legend dynamically
+    // Clear old legend items before appending new ones
     let legend = d3.select(".legend");
+    legend.selectAll("*").remove();
+
+    // Generate legend dynamically
     legend.selectAll("li")
         .data(data)
         .enter()
@@ -41,8 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
         .attr("class", "legend-item")
         .html(d => `<span class="swatch" style="background-color:${colorScale(d.label)};"></span> ${d.label} <em>(${d.value})</em>`);
 });
-
-
 
 
 
