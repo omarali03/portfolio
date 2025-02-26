@@ -1,28 +1,28 @@
 console.log("IT’S ALIVE!");
 
 // Navigation Logic
-const ARE_WE_HOME = document.documentElement.classList.contains('home');
+const ARE_WE_HOME = document.documentElement.classList.contains("home");
 
 const pages = [
-  { url: '', title: 'Home' },
-  { url: 'contact/', title: 'Contact' },
-  { url: 'projects/', title: 'Projects' },
-  { url: 'resume/', title: 'Resume' },
-  { url: 'https://github.com/omarali03', title: 'Github' }
+  { url: "", title: "Home" },
+  { url: "contact/", title: "Contact" },
+  { url: "projects/", title: "Projects" },
+  { url: "resume/", title: "Resume" },
+  { url: "https://github.com/omarali03", title: "Github" }
 ];
 
-const nav = document.createElement('nav');
+const nav = document.createElement("nav");
 pages.forEach(({ url, title }) => {
-  const adjustedUrl = !ARE_WE_HOME && !url.startsWith('http') ? `../${url}` : url;
+  const adjustedUrl = !ARE_WE_HOME && !url.startsWith("http") ? `../${url}` : url;
 
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = adjustedUrl;
   a.textContent = title;
 
-  a.classList.toggle('current', a.host === location.host && a.pathname === location.pathname);
+  a.classList.toggle("current", a.host === location.host && a.pathname === location.pathname);
 
   if (a.host !== location.host) {
-    a.target = '_blank';
+    a.target = "_blank";
   }
 
   nav.appendChild(a);
@@ -32,7 +32,7 @@ document.body.prepend(nav);
 
 // Theme Selection
 document.body.insertAdjacentHTML(
-  'afterbegin',
+  "afterbegin",
   `
   <label class="color-scheme">
     Theme:
@@ -69,78 +69,75 @@ if (savedColorScheme) {
   console.log("No saved theme found, defaulting to Automatic");
 }
 
-// Fetch JSON function (ensuring data loads properly)
+// ✅ Fetch JSON function (now properly handles errors)
 export async function fetchJSON(url) {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`Failed to load ${url}`);
-  return response.json();
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Failed to load ${url}: ${response.statusText}`);
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+  }
 }
 
-export function renderProjects(projects, containerElement, headingLevel = 'h2') {
+// ✅ Function to render projects (ensuring missing properties don’t break rendering)
+export function renderProjects(projects, containerElement, headingLevel = "h2") {
   if (!containerElement) {
-      console.error("Container element is not valid.");
-      return;
+    console.error("Error: Container element is not valid.");
+    return;
   }
-  containerElement.innerHTML = ''; // Clear previous content
+  containerElement.innerHTML = ""; // Clear previous content
 
-  projects.forEach(project => {
-      const article = document.createElement('article');
+  projects.forEach((project) => {
+    const article = document.createElement("article");
 
-      // Ensure missing properties don't break rendering
-      const title = project.title || "Untitled Project";
-      const image = project.image || "https://via.placeholder.com/150";
-      const description = project.description || "No description available.";
-      const year = project.year || "Unknown Year"; 
+    // Default values for missing properties
+    const title = project.title || "Untitled Project";
+    const image = project.image || "https://via.placeholder.com/150";
+    const description = project.description || "No description available.";
+    const year = project.year || "Unknown Year";
 
-      // Create title heading
-      const heading = document.createElement(headingLevel);
-      heading.textContent = title;
+    // Create elements
+    const heading = document.createElement(headingLevel);
+    heading.textContent = title;
 
-      // Create image element
-      const img = document.createElement('img');
-      img.src = image;
-      img.alt = title;
+    const img = document.createElement("img");
+    img.src = image;
+    img.alt = title;
 
-      // Create description paragraph
-      const paragraph = document.createElement('p');
-      paragraph.textContent = description;
+    const paragraph = document.createElement("p");
+    paragraph.textContent = description;
 
-      // Create year element
-      const yearParagraph = document.createElement('p');
-      yearParagraph.textContent = `c. ${year}`;
-      yearParagraph.style.fontStyle = 'italic';
-      yearParagraph.style.fontVariantNumeric = 'oldstyle-nums'; // Apply recommended styling
+    const yearParagraph = document.createElement("p");
+    yearParagraph.textContent = `c. ${year}`;
+    yearParagraph.style.fontStyle = "italic";
+    yearParagraph.style.fontVariantNumeric = "oldstyle-nums";
 
-      // Create wrapper for description and year
-      const textWrapper = document.createElement('div');
-      textWrapper.appendChild(paragraph);
-      textWrapper.appendChild(yearParagraph);
+    // Wrapper for text
+    const textWrapper = document.createElement("div");
+    textWrapper.appendChild(paragraph);
+    textWrapper.appendChild(yearParagraph);
 
-      // Append elements to the article
-      article.appendChild(heading);
-      article.appendChild(img);
-      article.appendChild(textWrapper);
-
-      // Append article to the container
-      containerElement.appendChild(article);
+    // Append everything
+    article.appendChild(heading);
+    article.appendChild(img);
+    article.appendChild(textWrapper);
+    containerElement.appendChild(article);
   });
 }
 
-export async function fetchGithubData(omarali03) {
+// ✅ Fetch GitHub data function (now correctly takes a username)
+export async function fetchGithubData(username) {
   try {
-      const response = await fetch(`https://api.github.com/users/${omarali03}`);
-      
-      if (!response.ok) {
-          throw new Error(`Failed to fetch GitHub data: ${response.statusText}`);
-      }
+    const response = await fetch(`https://api.github.com/users/${username}`);
 
-      const data = await response.json();
-      return data;
+    if (!response.ok) {
+      throw new Error(`Failed to fetch GitHub data: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
   } catch (error) {
-      console.error("Error fetching GitHub data:", error);
+    console.error("Error fetching GitHub data:", error);
   }
 }
-
-
-
-  
