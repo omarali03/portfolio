@@ -100,3 +100,28 @@ document.addEventListener("DOMContentLoaded", async function () {
         searchInput.addEventListener("input", filterProjects); // Listen to input changes
     }
 });
+
+document.addEventListener("DOMContentLoaded", async function () {
+    console.log("Loading projects...");
+  
+    try {
+      const projectsData = await fetchJSON("../lib/projects.json");
+      const container = document.querySelector(".projects");
+  
+      // Initial rendering
+      renderProjects(container, projectsData);
+  
+      // Setup search functionality
+      const searchInput = document.querySelector(".searchBar");
+  
+      if (searchInput) {
+        searchInput.addEventListener("input", (event) => {
+          const query = event.target.value;
+          renderProjects(container, projectsData, query);
+        });
+      }
+  
+    } catch (error) {
+      console.error("Error loading projects:", error);
+    }
+  });
