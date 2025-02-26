@@ -53,7 +53,6 @@ colorSchemeSelect.addEventListener("change", (event) => {
   localStorage.setItem("color-scheme", selectedValue);
 });
 
-// Load user's theme preference
 const savedColorScheme = localStorage.getItem("color-scheme");
 if (savedColorScheme) {
   console.log(`Loaded saved theme: ${savedColorScheme}`);
@@ -63,12 +62,16 @@ if (savedColorScheme) {
   console.log("No saved theme found, defaulting to Automatic");
 }
 
-// Global projects storage
+// Store and retrieve projects properly
 let projects = [];
 
 export function setProjects(data) {
-  projects = data;
-  console.log("Projects have been set:", projects);
+  if (Array.isArray(data)) {
+    projects = data;
+    console.log("Projects have been set:", projects);
+  } else {
+    console.error("Error: Expected an array, but received:", data);
+  }
 }
 
 export function getProjects() {
@@ -83,8 +86,16 @@ export async function fetchJSON(url) {
       throw new Error(`Failed to load ${url}: ${response.statusText}`);
     }
     const data = await response.json();
-    setProjects(data); // Store projects globally
-    return data;
+    
+    console.log("Fetched JSON Data:", data);
+    
+    const projectsArray = data.projects || data; // Extract array if wrapped in an object
+    if (!Array.isArray(projectsArray)) {
+      throw new Error("Invalid data format: Expected an array");
+    }
+
+    setProjects(projectsArray);
+    return projectsArray;
   } catch (error) {
     console.error("Error fetching JSON:", error);
   }
@@ -99,7 +110,12 @@ export function renderProjects(containerElement, projectsData, headingLevel = "h
 
   containerElement.innerHTML = ""; // Clear previous content
 
-  if (!projectsData || projectsData.length === 0) {
+  if (!Array.isArray(projectsData)) {
+    console.error("Error: projectsData is not an array.", projectsData);
+    return;
+  }
+
+  if (projectsData.length === 0) {
     console.warn("No projects found.");
     return;
   }
