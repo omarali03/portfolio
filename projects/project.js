@@ -71,3 +71,32 @@ document.addEventListener("DOMContentLoaded", async function () {
         .attr("class", "legend-item")
         .html((d) => `<span class="swatch" style="background-color:${colorScale(d.label)};"></span> ${d.label} <em>(${d.value})</em>`);
 });
+
+let query = ""; // Stores search input
+
+function filterProjects() {
+    const searchInput = document.querySelector(".searchBar");
+    if (!searchInput) return;
+
+    query = searchInput.value.toLowerCase(); // Get lowercase search input
+    console.log("🔍 Searching for:", query);
+
+    const allProjects = getProjects();
+    const filteredProjects = allProjects.filter(project =>
+        project.title.toLowerCase().includes(query)
+    );
+
+    console.log("✅ Filtered Projects:", filteredProjects);
+
+    // Re-render filtered projects
+    renderProjects(document.querySelector(".projects"), filteredProjects, "h2");
+}
+
+document.addEventListener("DOMContentLoaded", async function () {
+    await loadProjects(); // Load projects first
+
+    const searchInput = document.querySelector(".searchBar");
+    if (searchInput) {
+        searchInput.addEventListener("input", filterProjects); // Listen to input changes
+    }
+});
