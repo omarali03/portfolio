@@ -101,35 +101,36 @@ export async function fetchJSON(url) {
   }
 }
 
-// Render Projects Correctly
-export function renderProjects(containerElement, projectsData, headingLevel = "h2") {
+export function renderProjects(containerElement, projectsData, query = "", headingLevel = "h2") {
   if (!containerElement) {
-    console.error("❌ Error: Container element is not valid.");
+    console.error("Error: Container element is not valid.");
     return;
   }
 
   containerElement.innerHTML = ""; // Clear previous content
 
-  if (!Array.isArray(projectsData)) {
-    console.error("❌ Error: projectsData is not an array.", projectsData);
+  if (!projectsData || projectsData.length === 0) {
+    console.warn("No projects found.");
     return;
   }
 
-  if (projectsData.length === 0) {
-    console.warn("⚠️ No projects found.");
-    return;
-  }
+  // Convert query to lowercase for case-insensitive search
+  query = query.toLowerCase();
 
-  projectsData.forEach((project) => {
+  // Filter projects based on query
+  let filteredProjects = projectsData.filter((project) => {
+    let values = Object.values(project).join("\n").toLowerCase(); 
+    return values.includes(query);
+  });
+
+  filteredProjects.forEach((project) => {
     const article = document.createElement("article");
 
-    // Default values for missing properties
     const title = project.title || "Untitled Project";
     const image = project.image || "https://via.placeholder.com/150";
     const description = project.description || "No description available.";
     const year = project.year || "Unknown Year";
 
-    // Create elements
     const heading = document.createElement(headingLevel);
     heading.textContent = title;
 
@@ -145,17 +146,15 @@ export function renderProjects(containerElement, projectsData, headingLevel = "h
     yearParagraph.style.fontStyle = "italic";
     yearParagraph.style.fontVariantNumeric = "oldstyle-nums";
 
-    // Wrapper for text
     const textWrapper = document.createElement("div");
     textWrapper.appendChild(paragraph);
     textWrapper.appendChild(yearParagraph);
 
-    // Append everything
     article.appendChild(heading);
     article.appendChild(img);
     article.appendChild(textWrapper);
     containerElement.appendChild(article);
   });
 
-  console.log("✅ Projects rendered successfully!");
+  console.log("Projects rendered successfully!");
 }
