@@ -4,10 +4,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         console.log("index.js is running.");
 
-        // Fetch all projects from projects.json
         const projects = await fetchJSON('./lib/projects.json');
 
-        // Debugging: Log the fetched projects
         console.log("Fetched projects:", projects);
 
         if (!projects || projects.length === 0) {
@@ -15,7 +13,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        // Select the container where projects should appear
         const projectsContainer = document.querySelector('.projects');
         console.log("Projects container:", projectsContainer);
 
@@ -24,7 +21,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        // Render the projects
         renderProjects(projects, projectsContainer, 'h2');
         console.log("Projects successfully rendered!");
 
@@ -34,7 +30,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 
-// GitHub API Fetching
 async function displayGitHubProfile() {
     try {
         const username = "omarali03";  
