@@ -2,6 +2,13 @@ console.log("project.js is loaded and running!");
 import { fetchJSON, renderProjects } from "../global.js";
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
+fetchJSON("../lib/projects.json")
+    .then(data => {
+        setProjects(data);
+        renderProjects(getProjects(), document.querySelector(".projects"), "h2");
+    })
+    .catch(console.error);
+
 document.addEventListener("DOMContentLoaded", function () {
     console.log("DOM fully loaded and parsed!");
 
