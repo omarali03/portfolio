@@ -5,25 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects</title>
   <link rel="stylesheet" href="../style.css">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
 
-    <h1 class="projects-title">Projects</h1> 
-    <div class="projects"></div>
+    <h1 class="projects-title">Projects</h1>  
 
-
-    <div class="container">
-        <div class="chart-wrapper">
-            <svg id="projects-plot" viewBox="-100 -100 200 200"></svg>
-            <ul class="legend"></ul>  <!-- Legend appears directly below -->
-        </div>
+    <!-- Pie Chart Section (Move this ABOVE the projects) -->
+    <div class="chart-container">
+        <svg id="projects-plot" viewBox="-100 -100 200 200"></svg>
+        <ul class="legend"></ul>  
     </div>
+
+    <!-- Project Cards Section -->
+    <div class="projects"></div>
 
     <script type="module" src="../global.js"></script>
     <script type="module" src="./project.js"></script>
 
 </body>
 </html>
+
 
 
