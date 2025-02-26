@@ -140,29 +140,33 @@ article {
   overflow: visible;
 }
 
-/* Container for Pie Chart and Legend */
 .container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;  /* Stack elements vertically */
   align-items: center;
-  gap: 30px;
+  justify-content: center;
   margin-top: 20px;
 }
 
-/* Legend Styling */
+#projects-plot {
+  width: 300px; 
+  height: 300px;
+}
+
 .legend {
-  flex: 1;
-  list-style: none;
-  padding: 0;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  padding: 10px;
+  gap: 15px; /* Adjust spacing between items */
 }
 
 .legend li {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 1rem;
+  font-size: 14px;
 }
 
 .legend .swatch {
