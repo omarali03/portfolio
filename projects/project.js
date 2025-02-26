@@ -1,5 +1,4 @@
 console.log("project.js is loaded and running!");
-import { fetchJSON, renderProjects } from "../global.js";
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
 fetchJSON("../lib/projects.json")
@@ -55,4 +54,18 @@ document.addEventListener("DOMContentLoaded", function () {
         .append("li")
         .attr("class", "legend-item")
         .html(d => `<span class="swatch" style="background-color:${colorScale(d.label)};"></span> ${d.label} <em>(${d.value})</em>`);
+});
+
+import { fetchJSON, renderProjects, getProjects } from "../global.js";
+
+document.addEventListener("DOMContentLoaded", async function () {
+  console.log("Loading projects...");
+
+  try {
+    const projectsData = await fetchJSON("../lib/projects.json");
+    const container = document.querySelector(".projects");
+    renderProjects(container, projectsData, "h2");
+  } catch (error) {
+    console.error("Error loading projects:", error);
+  }
 });
