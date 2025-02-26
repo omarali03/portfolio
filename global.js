@@ -1,7 +1,9 @@
 console.log("IT’S ALIVE!");
 
+// Check if we're on the home page
 const ARE_WE_HOME = document.documentElement.classList.contains("home");
 
+// Pages for navigation
 const pages = [
   { url: "", title: "Home" },
   { url: "contact/", title: "Contact" },
@@ -10,6 +12,7 @@ const pages = [
   { url: "https://github.com/omarali03", title: "Github" }
 ];
 
+// Create and insert navigation dynamically
 const nav = document.createElement("nav");
 pages.forEach(({ url, title }) => {
   const adjustedUrl = !ARE_WE_HOME && !url.startsWith("http") ? `../${url}` : url;
@@ -42,7 +45,6 @@ document.body.insertAdjacentHTML(
   `
 );
 
-// Theme Preference Handling
 const colorSchemeSelect = document.getElementById("color-scheme-select");
 
 colorSchemeSelect.addEventListener("change", (event) => {
@@ -61,6 +63,7 @@ if (savedColorScheme) {
   console.log("No saved theme found, defaulting to Automatic");
 }
 
+// ========= ✅ FIXED PROJECT STATE HANDLING =========
 
 // Store and retrieve projects properly
 let projects = [];
@@ -73,6 +76,7 @@ export function getProjects() {
   return projects;
 }
 
+// ========= ✅ FIXED fetchJSON FUNCTION =========
 
 export async function fetchJSON(url) {
   try {
@@ -80,19 +84,30 @@ export async function fetchJSON(url) {
     if (!response.ok) {
       throw new Error(`Failed to load ${url}: ${response.statusText}`);
     }
-    return await response.json();
+    const data = await response.json();
+    setProjects(data); // Store projects globally
+    return data;
   } catch (error) {
     console.error("Error fetching JSON:", error);
   }
 }
 
+// ========= ✅ FIXED renderProjects FUNCTION =========
 
-export function renderProjects(projects, containerElement, headingLevel = "h2") {
+export function renderProjects(containerElement, headingLevel = "h2") {
   if (!containerElement) {
     console.error("Error: Container element is not valid.");
     return;
   }
+
   containerElement.innerHTML = ""; // Clear previous content
+
+  const projects = getProjects(); // Fetch stored projects
+
+  if (!projects || projects.length === 0) {
+    console.warn("No projects found.");
+    return;
+  }
 
   projects.forEach((project) => {
     const article = document.createElement("article");
@@ -132,6 +147,7 @@ export function renderProjects(projects, containerElement, headingLevel = "h2") 
   });
 }
 
+// ========= ✅ FIXED fetchGitHubData FUNCTION =========
 
 export async function fetchGitHubData(username) {
   try {
