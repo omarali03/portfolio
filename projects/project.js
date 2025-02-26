@@ -5,7 +5,12 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 document.addEventListener("DOMContentLoaded", function () {
     console.log("DOM fully loaded and parsed!");
 
-    const svg = d3.select("#projects-plot");
+    const svg = d3.select("#projects-plot")
+        .attr("width", 300)
+        .attr("height", 300)
+        .append("g")
+        .attr("transform", "translate(100,100)"); // Center the pie chart
+
     let data = [
         { value: 1, label: "apples" },
         { value: 2, label: "oranges" },
@@ -16,10 +21,10 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
 
     let colorScale = d3.scaleOrdinal(d3.schemeTableau10);
-    
+
     let sliceGenerator = d3.pie().value(d => d.value);
     let arcData = sliceGenerator(data);
-    
+
     let arcGenerator = d3.arc()
         .innerRadius(0)  
         .outerRadius(90);
@@ -30,13 +35,12 @@ document.addEventListener("DOMContentLoaded", function () {
         .append("path")
         .attr("d", arcGenerator)
         .attr("fill", (d, i) => colorScale(i))
-        .attr("transform", "translate(100,100)");
+        .attr("stroke", "white")
+        .attr("stroke-width", "2px");
 
-    // Clear old legend items before appending new ones
     let legend = d3.select(".legend");
     legend.selectAll("*").remove();
 
-    // Generate legend dynamically
     legend.selectAll("li")
         .data(data)
         .enter()
