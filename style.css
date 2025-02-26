@@ -30,11 +30,10 @@ nav a.current {
   border-bottom: 2px solid #00f;
 }
 
-
 nav a:hover {
   border-bottom-width: 0.4em;
   border-bottom-color: var(--color-accent);
-  background-color: color-mix(in oklch, var(--color-accent), canvas 85%); /* Adaptive hover background */
+  background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
   padding-bottom: 8px;
 }
 
@@ -66,6 +65,7 @@ article {
   grid-row: span 3;
 }
 
+/* Color Scheme Selector */
 .color-scheme {
   position: absolute;
   top: 10px;
@@ -86,6 +86,7 @@ article {
   color: var(--text-color, #000);
 }
 
+/* GitHub Profile Section */
 .github-profile {
   text-align: center;
   margin-top: 20px;
@@ -94,6 +95,8 @@ article {
 .github-profile img {
   border-radius: 50%;
 }
+
+/* GitHub Stats */
 #profile-stats {
   display: grid;
   place-items: center;
@@ -103,7 +106,7 @@ article {
 
 #profile-stats dl {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   font-size: 1.2rem;
   width: 100%;
@@ -123,61 +126,43 @@ article {
   font-weight: bold;
 }
 
+/* Pie Chart Styling */
+#projects-plot {
+  display: block;
+  margin: 0 auto;
+  width: 300px;
+  height: 300px;
+}
+
 #projects-pie-plot {
   max-width: 20em;
   margin-block: 2em;
-
   overflow: visible;
 }
 
-#projects-plot {
-  display: block;
-  margin: 0 auto; /* Center horizontally */
-  position: relative;
-  top: 0; /* Move it to the top */
-}
-
+/* Container for Pie Chart and Legend */
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+/* Legend Styling */
+.legend {
+  flex: 1;
+  list-style: none;
+  padding: 0;
+  display: flex;
   flex-direction: column;
 }
 
-.legend {
-  list-style: none;
-  padding: 0;
-}
-
 .legend li {
   display: flex;
   align-items: center;
-  margin: 5px 0;
-}
-
-.legend .swatch {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin-right: 8px;
-  background: var(--color);
-}
-.container {
-  display: flex;  /* Enables flexbox */
-  align-items: center;  /* Centers items vertically */
-  gap: 20px;  /* Adds spacing between pie chart and legend */
-}
-
-.legend {
-  flex: 1;  /* Allows legend to take available space */
-  list-style: none;
-  padding: 0;
-}
-
-.legend li {
-  display: flex;
-  align-items: center;
-  gap: 10px;  /* Adds spacing between swatch and text */
+  gap: 10px;
+  font-size: 1rem;
 }
 
 .legend .swatch {
@@ -185,5 +170,18 @@ article {
   height: 15px;
   border-radius: 50%;
   display: inline-block;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .legend {
+    align-items: center;
+  }
 }
 
