@@ -109,15 +109,14 @@ article {
   font-weight: bold;
 }
 
-/* Container for Pie Chart & Legend */
-.chart-container {
+.container {
   display: flex;
-  flex-direction: column;  /* Ensures Pie Chart is Above the Legend */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-top: 20px;
-  text-align: center;
 }
+
 
 /* Pie Chart Styling */
 #projects-plot {
