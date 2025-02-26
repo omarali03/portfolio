@@ -10,7 +10,6 @@ body {
   padding: 0 30px;
 }
 
-/* Navigation Bar */
 nav {
   display: flex;
   justify-content: space-around;
@@ -38,7 +37,7 @@ nav a:hover {
   padding-bottom: 8px;
 }
 
-/* Form Styling */
+/* FORM STYLING */
 form {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -55,20 +54,55 @@ button {
   grid-column: 1 / -1;
 }
 
-/* Projects Grid Layout */
+/* CHART SECTION - Ensures Pie Chart is at the Top */
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  order: -1; /* Moves the chart above projects */
+}
+
+#projects-plot {
+  width: 300px;
+  height: 300px;
+  display: block;
+  margin: auto;
+}
+
+/* LEGEND */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  padding: 10px;
+  margin-top: 10px;
+  gap: 15px;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  gap: 8px;
+}
+
+.legend .swatch {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
 .projects {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
-  gap: 1em;
+  gap: 20px;
+  margin-top: 40px; /* Ensures space between the pie chart and projects */
 }
 
-article {
-  display: grid;
-  grid-template-rows: subgrid;
-  grid-row: span 3;
-}
-
-/* GitHub Profile Section */
 .github-profile {
   text-align: center;
   margin-top: 20px;
@@ -78,7 +112,6 @@ article {
   border-radius: 50%;
 }
 
-/* GitHub Stats */
 #profile-stats {
   display: grid;
   place-items: center;
@@ -108,63 +141,19 @@ article {
   font-weight: bold;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin-top: 20px;
-  gap: 15px; /* Space between pie chart and legend */
-}
-
-.chart-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-#projects-plot {
-  width: 300px; 
-  height: 300px; 
-  display: block;
-  margin: auto;
-}
-
-.legend {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  list-style: none;
-  padding: 10px;
-  margin-top: 10px; 
-  gap: 15px; 
-}
-
-.legend li {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  gap: 8px; 
-}
-
-.legend .swatch {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
+/* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
-  .container {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
+  .chart-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
   .legend {
-      align-items: center;
+    align-items: center;
+  }
+
+  .projects {
+    grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
   }
 }
-
