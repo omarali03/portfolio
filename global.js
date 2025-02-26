@@ -1,6 +1,4 @@
 console.log("IT’S ALIVE!");
-
-// Navigation Logic
 const ARE_WE_HOME = document.documentElement.classList.contains("home");
 
 const pages = [
@@ -69,7 +67,6 @@ if (savedColorScheme) {
   console.log("No saved theme found, defaulting to Automatic");
 }
 
-// ✅ Fetch JSON function (now properly handles errors)
 export async function fetchJSON(url) {
   try {
     const response = await fetch(url);
@@ -80,7 +77,6 @@ export async function fetchJSON(url) {
   }
 }
 
-// ✅ Function to render projects (ensuring missing properties don’t break rendering)
 export function renderProjects(projects, containerElement, headingLevel = "h2") {
   if (!containerElement) {
     console.error("Error: Container element is not valid.");
@@ -126,7 +122,6 @@ export function renderProjects(projects, containerElement, headingLevel = "h2") 
   });
 }
 
-// ✅ Fetch GitHub data function (now correctly takes a username)
 export async function fetchGithubData(username) {
   try {
     const response = await fetch(`https://api.github.com/users/${username}`);
