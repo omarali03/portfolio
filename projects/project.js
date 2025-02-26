@@ -86,3 +86,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.error("Error loading projects:", error);
   }
 });
+
+fetchJSON("../lib/projects.json")
+    .then(data => {
+        const projectsArray = data.projects || data; // Support both structures
+        if (!Array.isArray(projectsArray)) throw new Error("Invalid data format");
+        setProjects(projectsArray);
+        renderProjects(document.querySelector(".projects"), "h2");
+        drawPieChart();
+    })
+    .catch(console.error);
