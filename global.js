@@ -68,9 +68,9 @@ let projects = [];
 export function setProjects(data) {
   if (Array.isArray(data)) {
     projects = data;
-    console.log("Projects have been set:", projects);
+    console.log("✅ Projects have been set:", projects);
   } else {
-    console.error("Error: Expected an array, but received:", data);
+    console.error("❌ Error: Expected an array, but received:", data);
   }
 }
 
@@ -87,36 +87,36 @@ export async function fetchJSON(url) {
     }
     const data = await response.json();
     
-    console.log("Fetched JSON Data:", data);
+    console.log("📥 Fetched JSON Data:", data);
     
-    const projectsArray = data.projects || data; // Extract array if wrapped in an object
+    const projectsArray = Array.isArray(data) ? data : data.projects; // Handle if wrapped in an object
     if (!Array.isArray(projectsArray)) {
-      throw new Error("Invalid data format: Expected an array");
+      throw new Error("❌ Invalid data format: Expected an array");
     }
 
     setProjects(projectsArray);
     return projectsArray;
   } catch (error) {
-    console.error("Error fetching JSON:", error);
+    console.error("❌ Error fetching JSON:", error);
   }
 }
 
 // Render Projects Correctly
 export function renderProjects(containerElement, projectsData, headingLevel = "h2") {
   if (!containerElement) {
-    console.error("Error: Container element is not valid.");
+    console.error("❌ Error: Container element is not valid.");
     return;
   }
 
   containerElement.innerHTML = ""; // Clear previous content
 
   if (!Array.isArray(projectsData)) {
-    console.error("Error: projectsData is not an array.", projectsData);
+    console.error("❌ Error: projectsData is not an array.", projectsData);
     return;
   }
 
   if (projectsData.length === 0) {
-    console.warn("No projects found.");
+    console.warn("⚠️ No projects found.");
     return;
   }
 
@@ -157,20 +157,5 @@ export function renderProjects(containerElement, projectsData, headingLevel = "h
     containerElement.appendChild(article);
   });
 
-  console.log("Projects rendered successfully!");
-}
-
-// Fetch GitHub Data
-export async function fetchGitHubData(username) {
-  try {
-    const response = await fetch(`https://api.github.com/users/${username}`);
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch GitHub data: ${response.statusText}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching GitHub data:", error);
-  }
+  console.log("✅ Projects rendered successfully!");
 }
