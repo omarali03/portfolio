@@ -1,7 +1,6 @@
 console.log("IT’S ALIVE!");
-const ARE_WE_HOME = document.documentElement.classList.contains("home");
-console.log("Rendering projects:", projects);
 
+const ARE_WE_HOME = document.documentElement.classList.contains("home");
 
 const pages = [
   { url: "", title: "Home" },
@@ -18,7 +17,6 @@ pages.forEach(({ url, title }) => {
   const a = document.createElement("a");
   a.href = adjustedUrl;
   a.textContent = title;
-
   a.classList.toggle("current", a.host === location.host && a.pathname === location.pathname);
 
   if (a.host !== location.host) {
@@ -27,10 +25,9 @@ pages.forEach(({ url, title }) => {
 
   nav.appendChild(a);
 });
-
 document.body.prepend(nav);
 
-// Theme Selection
+// Theme Selection UI
 document.body.insertAdjacentHTML(
   "afterbegin",
   `
@@ -45,12 +42,7 @@ document.body.insertAdjacentHTML(
   `
 );
 
-if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-  document.querySelector("option[value='light dark']").textContent = "Automatic (Dark)";
-} else {
-  document.querySelector("option[value='light dark']").textContent = "Automatic (Light)";
-}
-
+// Theme Preference Handling
 const colorSchemeSelect = document.getElementById("color-scheme-select");
 
 colorSchemeSelect.addEventListener("change", (event) => {
@@ -59,7 +51,7 @@ colorSchemeSelect.addEventListener("change", (event) => {
   localStorage.setItem("color-scheme", selectedValue);
 });
 
-// Load the user’s saved color scheme preference
+// Load user's theme preference
 const savedColorScheme = localStorage.getItem("color-scheme");
 if (savedColorScheme) {
   console.log(`Loaded saved theme: ${savedColorScheme}`);
@@ -69,15 +61,31 @@ if (savedColorScheme) {
   console.log("No saved theme found, defaulting to Automatic");
 }
 
+
+// Store and retrieve projects properly
+let projects = [];
+
+export function setProjects(data) {
+  projects = data;
+}
+
+export function getProjects() {
+  return projects;
+}
+
+
 export async function fetchJSON(url) {
   try {
     const response = await fetch(url);
-    if (!response.ok) throw new Error(`Failed to load ${url}: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`Failed to load ${url}: ${response.statusText}`);
+    }
     return await response.json();
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching JSON:", error);
   }
 }
+
 
 export function renderProjects(projects, containerElement, headingLevel = "h2") {
   if (!containerElement) {
@@ -124,7 +132,8 @@ export function renderProjects(projects, containerElement, headingLevel = "h2") 
   });
 }
 
-export async function fetchGithubData(username) {
+
+export async function fetchGitHubData(username) {
   try {
     const response = await fetch(`https://api.github.com/users/${username}`);
 
@@ -132,9 +141,9 @@ export async function fetchGithubData(username) {
       throw new Error(`Failed to fetch GitHub data: ${response.statusText}`);
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     console.error("Error fetching GitHub data:", error);
   }
 }
+
