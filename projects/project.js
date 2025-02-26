@@ -1,5 +1,5 @@
 console.log("project.js is loaded and running!");
-import { fetchJSON, renderProjects, loadProjects } from '../global.js'; 
+import { fetchJSON, renderProjects } from '../global.js';
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
 // Wait for the DOM to be fully loaded
