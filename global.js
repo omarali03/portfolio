@@ -1,5 +1,7 @@
 console.log("IT’S ALIVE!");
 const ARE_WE_HOME = document.documentElement.classList.contains("home");
+console.log("Rendering projects:", projects);
+
 
 const pages = [
   { url: "", title: "Home" },
