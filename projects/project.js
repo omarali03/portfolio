@@ -11,10 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error: .projects container not found!");
         return;
     }
-
-    // Load projects into the container
-    loadProjects();
-
     // Select SVG for pie chart
     const svg = d3.select("#projects-plot");
     let data = [1, 2, 3, 4, 5, 5];
