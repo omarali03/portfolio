@@ -63,21 +63,19 @@ if (savedColorScheme) {
   console.log("No saved theme found, defaulting to Automatic");
 }
 
-// ========= ✅ FIXED PROJECT STATE HANDLING =========
-
-// Store and retrieve projects properly
+// Global projects storage
 let projects = [];
 
 export function setProjects(data) {
   projects = data;
+  console.log("Projects have been set:", projects);
 }
 
 export function getProjects() {
   return projects;
 }
 
-// ========= ✅ FIXED fetchJSON FUNCTION =========
-
+// Fetch JSON Data
 export async function fetchJSON(url) {
   try {
     const response = await fetch(url);
@@ -92,9 +90,8 @@ export async function fetchJSON(url) {
   }
 }
 
-// ========= ✅ FIXED renderProjects FUNCTION =========
-
-export function renderProjects(containerElement, headingLevel = "h2") {
+// Render Projects Correctly
+export function renderProjects(containerElement, projectsData, headingLevel = "h2") {
   if (!containerElement) {
     console.error("Error: Container element is not valid.");
     return;
@@ -102,14 +99,12 @@ export function renderProjects(containerElement, headingLevel = "h2") {
 
   containerElement.innerHTML = ""; // Clear previous content
 
-  const projects = getProjects(); // Fetch stored projects
-
-  if (!projects || projects.length === 0) {
+  if (!projectsData || projectsData.length === 0) {
     console.warn("No projects found.");
     return;
   }
 
-  projects.forEach((project) => {
+  projectsData.forEach((project) => {
     const article = document.createElement("article");
 
     // Default values for missing properties
@@ -145,10 +140,11 @@ export function renderProjects(containerElement, headingLevel = "h2") {
     article.appendChild(textWrapper);
     containerElement.appendChild(article);
   });
+
+  console.log("Projects rendered successfully!");
 }
 
-// ========= ✅ FIXED fetchGitHubData FUNCTION =========
-
+// Fetch GitHub Data
 export async function fetchGitHubData(username) {
   try {
     const response = await fetch(`https://api.github.com/users/${username}`);
@@ -162,4 +158,3 @@ export async function fetchGitHubData(username) {
     console.error("Error fetching GitHub data:", error);
   }
 }
-
