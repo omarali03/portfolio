@@ -62,16 +62,12 @@ if (savedColorScheme) {
   console.log("No saved theme found, defaulting to Automatic");
 }
 
-// Store and retrieve projects properly
+// Store and manage projects
 let projects = [];
 
 export function setProjects(data) {
-  if (Array.isArray(data)) {
-    projects = data;
-    console.log("✅ Projects have been set:", projects);
-  } else {
-    console.error("❌ Error: Expected an array, but received:", data);
-  }
+  projects = Array.isArray(data) ? data : [];
+  console.log("Projects have been set:", projects);
 }
 
 export function getProjects() {
@@ -86,22 +82,16 @@ export async function fetchJSON(url) {
       throw new Error(`Failed to load ${url}: ${response.statusText}`);
     }
     const data = await response.json();
-    
-    console.log("📥 Fetched JSON Data:", data);
-    
-    const projectsArray = Array.isArray(data) ? data : data.projects; // Handle if wrapped in an object
-    if (!Array.isArray(projectsArray)) {
-      throw new Error("❌ Invalid data format: Expected an array");
-    }
-
-    setProjects(projectsArray);
-    return projectsArray;
+    setProjects(data);
+    return data;
   } catch (error) {
-    console.error("❌ Error fetching JSON:", error);
+    console.error("Error fetching JSON:", error);
+    return [];
   }
 }
 
-export function renderProjects(containerElement, projectsData, query = "", headingLevel = "h2") {
+// Render Projects Function
+export function renderProjects(projectsData, containerElement, headingLevel = "h2") {
   if (!containerElement) {
     console.error("Error: Container element is not valid.");
     return;
@@ -109,28 +99,21 @@ export function renderProjects(containerElement, projectsData, query = "", headi
 
   containerElement.innerHTML = ""; // Clear previous content
 
-  if (!projectsData || projectsData.length === 0) {
+  if (!Array.isArray(projectsData) || projectsData.length === 0) {
     console.warn("No projects found.");
     return;
   }
 
-  // Convert query to lowercase for case-insensitive search
-  query = query.toLowerCase();
-
-  // Filter projects based on query
-  let filteredProjects = projectsData.filter((project) => {
-    let values = Object.values(project).join("\n").toLowerCase(); 
-    return values.includes(query);
-  });
-
-  filteredProjects.forEach((project) => {
+  projectsData.forEach((project) => {
     const article = document.createElement("article");
 
+    // Default values for missing properties
     const title = project.title || "Untitled Project";
     const image = project.image || "https://via.placeholder.com/150";
     const description = project.description || "No description available.";
     const year = project.year || "Unknown Year";
 
+    // Create elements
     const heading = document.createElement(headingLevel);
     heading.textContent = title;
 
@@ -146,10 +129,12 @@ export function renderProjects(containerElement, projectsData, query = "", headi
     yearParagraph.style.fontStyle = "italic";
     yearParagraph.style.fontVariantNumeric = "oldstyle-nums";
 
+    // Wrapper for text
     const textWrapper = document.createElement("div");
     textWrapper.appendChild(paragraph);
     textWrapper.appendChild(yearParagraph);
 
+    // Append everything
     article.appendChild(heading);
     article.appendChild(img);
     article.appendChild(textWrapper);
