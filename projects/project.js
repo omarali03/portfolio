@@ -1,18 +1,22 @@
 console.log("project.js is loaded and running!");
+
 import { fetchJSON, renderProjects, getProjects } from "../global.js";
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
+
+let projects = [];
+let selectedYear = null;  // Stores the currently selected year
 
 // Load and render projects
 document.addEventListener("DOMContentLoaded", async function () {
     console.log("Loading projects...");
 
     try {
-        const projectsData = await fetchJSON("../lib/projects.json");
+        projects = await fetchJSON("../lib/projects.json");
         const container = document.querySelector(".projects");
 
-        if (projectsData && Array.isArray(projectsData)) {
-            renderProjects(projectsData, container, "h2");
-            renderPieChart(projectsData); // Initial pie chart
+        if (projects && Array.isArray(projects)) {
+            renderProjects(projects, container, "h2");
+            renderPieChart(projects);
         } else {
             console.error("Error: projectsData is not an array.");
         }
@@ -21,20 +25,33 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 });
 
-// Function to render the Pie Chart
-function renderPieChart(projectsGiven) {
-    console.log("Rendering Pie Chart...");
+// Search functionality
+let query = '';
+const searchInput = document.querySelector('.searchBar');
+const projectsContainer = document.querySelector(".projects");
+
+if (searchInput) {
+    searchInput.addEventListener('input', (event) => {
+        query = event.target.value.toLowerCase();
+        let filteredProjects = projects.filter((project) => {
+            let values = Object.values(project).join('\n').toLowerCase();
+            return values.includes(query);
+        });
+
+        renderProjects(filteredProjects, projectsContainer, 'h2');
+        renderPieChart(filteredProjects);  // Update chart with filtered projects
+    });
+}
+
+// Function to render Pie Chart
+function renderPieChart(projectsData) {
+    console.log("Drawing pie chart...");
 
     const svg = d3.select("#projects-plot");
-    
-    // Clear old chart before rendering a new one
-    svg.selectAll("*").remove();
-    let legend = d3.select(".legend");
-    legend.selectAll("*").remove();
+    svg.selectAll("*").remove(); // Clear previous chart
 
-    // Re-calculate rolled data
     let rolledData = d3.rollups(
-        projectsGiven,
+        projectsData,
         (v) => v.length,
         (d) => d.year
     );
@@ -56,7 +73,8 @@ function renderPieChart(projectsGiven) {
 
     let arcData = sliceGenerator(data);
 
-    svg.selectAll("path")
+    // Render Pie Chart Wedges
+    let slices = svg.selectAll("path")
         .data(arcData)
         .enter()
         .append("path")
@@ -64,31 +82,38 @@ function renderPieChart(projectsGiven) {
         .attr("fill", (d, i) => colorScale(i))
         .attr("stroke", "white")
         .attr("stroke-width", 2)
-        .attr("transform", "translate(0, 0)");
+        .attr("transform", "translate(0, 0)")
+        .attr("class", "clickable")
+        .on("click", (event, d) => {
+            handleYearFilter(d.data.label);
+        });
 
-    // Generate legend dynamically
+    // Clear old legend items before appending new ones
+    let legend = d3.select(".legend");
+    legend.selectAll("*").remove();
+
+    // Generate Legend
     legend.selectAll("li")
         .data(data)
         .enter()
         .append("li")
         .attr("class", "legend-item")
-        .html(d => `<span class="swatch" style="background-color:${colorScale(d.label)};"></span> ${d.label} <em>(${d.value})</em>`);
+        .html(d => `<span class="swatch" style="background-color:${colorScale(d.label)};"></span> ${d.label} <em>(${d.value})</em>`)
+        .on("click", (event, d) => {
+            handleYearFilter(d.label);
+        });
 }
 
-// Search functionality with reactive pie chart
-let query = '';
-let searchInput = document.querySelector('.searchBar');
-let projectsContainer = document.querySelector(".projects");
-
-if (searchInput) {
-    searchInput.addEventListener('input', (event) => {
-        query = event.target.value.toLowerCase();
-        let filteredProjects = getProjects().filter((project) => {
-            let values = Object.values(project).join('\n').toLowerCase();
-            return values.includes(query);
-        });
-
-        renderProjects(filteredProjects, projectsContainer, 'h2');
-        renderPieChart(filteredProjects); // Re-render pie chart dynamically
-    });
+// Function to filter projects by year when clicking a wedge or legend
+function handleYearFilter(year) {
+    if (selectedYear === year) {
+        selectedYear = null;  // Reset filter if already selected
+        renderProjects(projects, projectsContainer, "h2");
+        renderPieChart(projects);
+    } else {
+        selectedYear = year;
+        let filteredProjects = projects.filter(project => project.year === year);
+        renderProjects(filteredProjects, projectsContainer, "h2");
+        renderPieChart(filteredProjects);
+    }
 }
