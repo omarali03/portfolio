@@ -1,9 +1,8 @@
 console.log("project.js is loaded and running!");
-
 import { fetchJSON, renderProjects, getProjects } from "../global.js";
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm";
 
-// Load and render projects when the DOM is fully loaded
+// Load and render projects
 document.addEventListener("DOMContentLoaded", async function () {
     console.log("Loading projects...");
 
@@ -13,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         if (projectsData && Array.isArray(projectsData)) {
             renderProjects(projectsData, container, "h2");
-            drawPieChart(); // Ensure the pie chart updates after data is loaded
+            renderPieChart(projectsData); // Initial pie chart
         } else {
             console.error("Error: projectsData is not an array.");
         }
@@ -22,44 +21,20 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 });
 
-// Search functionality
-document.addEventListener("DOMContentLoaded", function () {
-    let query = '';
-    const searchInput = document.querySelector('.searchBar');
-    const projectsContainer = document.querySelector(".projects");
-
-    if (searchInput && projectsContainer) {
-        searchInput.addEventListener('input', (event) => {
-            query = event.target.value.toLowerCase();
-            let filteredProjects = getProjects().filter((project) => {
-                let values = Object.values(project).join('\n').toLowerCase();
-                return values.includes(query);
-            });
-
-            renderProjects(filteredProjects, projectsContainer, 'h2');
-            drawPieChart(filteredProjects); // Update pie chart based on filtered data
-        });
-    } else {
-        console.warn("Search bar or project container not found.");
-    }
-});
-
-// Function to draw Pie Chart
-function drawPieChart(filteredData = null) {
-    console.log("Drawing pie chart...");
+// Function to render the Pie Chart
+function renderPieChart(projectsGiven) {
+    console.log("Rendering Pie Chart...");
 
     const svg = d3.select("#projects-plot");
-    svg.selectAll("*").remove(); // Clear existing chart
+    
+    // Clear old chart before rendering a new one
+    svg.selectAll("*").remove();
+    let legend = d3.select(".legend");
+    legend.selectAll("*").remove();
 
-    const projectData = filteredData || getProjects(); // Use filtered data if provided
-
-    if (!projectData || projectData.length === 0) {
-        console.warn("No projects available for pie chart.");
-        return;
-    }
-
+    // Re-calculate rolled data
     let rolledData = d3.rollups(
-        projectData,
+        projectsGiven,
         (v) => v.length,
         (d) => d.year
     );
@@ -91,10 +66,6 @@ function drawPieChart(filteredData = null) {
         .attr("stroke-width", 2)
         .attr("transform", "translate(0, 0)");
 
-    // Clear old legend items before appending new ones
-    let legend = d3.select(".legend");
-    legend.selectAll("*").remove();
-
     // Generate legend dynamically
     legend.selectAll("li")
         .data(data)
@@ -102,4 +73,22 @@ function drawPieChart(filteredData = null) {
         .append("li")
         .attr("class", "legend-item")
         .html(d => `<span class="swatch" style="background-color:${colorScale(d.label)};"></span> ${d.label} <em>(${d.value})</em>`);
+}
+
+// Search functionality with reactive pie chart
+let query = '';
+let searchInput = document.querySelector('.searchBar');
+let projectsContainer = document.querySelector(".projects");
+
+if (searchInput) {
+    searchInput.addEventListener('input', (event) => {
+        query = event.target.value.toLowerCase();
+        let filteredProjects = getProjects().filter((project) => {
+            let values = Object.values(project).join('\n').toLowerCase();
+            return values.includes(query);
+        });
+
+        renderProjects(filteredProjects, projectsContainer, 'h2');
+        renderPieChart(filteredProjects); // Re-render pie chart dynamically
+    });
 }
