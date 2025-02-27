@@ -157,3 +157,54 @@ button {
     grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
   }
 }
+
+.search-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-color, #ccc); /* Adapts to theme */
+  border-radius: 5px;
+  padding: 5px;
+  width: fit-content;
+  background-color: var(--bg-color, #fff); /* Adapts to theme */
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.searchBar {
+  width: 100%;
+  max-width: 400px; /* Adjust width as needed */
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent; /* Inherits from container */
+  color: var(--text-color, black);
+  outline: none;
+  transition: box-shadow 0.3s;
+}
+
+.searchBar:focus {
+  box-shadow: 0 0 5px var(--accent-color, rgba(0, 123, 255, 0.5));
+}
+
+.search-container i {
+  color: var(--icon-color, #777); /* Adaptable icon color */
+  margin-left: 10px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --border-color: #ccc;
+    --bg-color: #fff;
+    --text-color: black;
+    --icon-color: #555;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --border-color: #555;
+    --bg-color: #222;
+    --text-color: white;
+    --icon-color: #bbb;
+  }
+}
